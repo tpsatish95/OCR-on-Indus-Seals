@@ -210,39 +210,39 @@ for name in os.listdir("Data/Images_RMRL_crop/"):
     extend_superbox()
     print(final_extended)
 
-    img = skimage.io.imread(fname)[:,:,:3]
-    for x,y,w,h in refined:
-        try:
-            skimage.io.imsave("Data/Images_RMRL_crop_parts/"+str(i)+".png", img[y:y+h,x:x+w])
-        except:
-            try:
-                skimage.io.imsave("Data/Images_RMRL_crop_parts/"+str(i)+".png", img[x:x+w,y:y+h])
-            except:
-                listNot.append(fname)
-                continue
-        i+=1
+    # img = skimage.io.imread(fname)[:,:,:3]
+    # for x,y,w,h in refined:
+    #     try:
+    #         skimage.io.imsave("Data/Images_RMRL_crop_parts_min/"+str(i)+".png", img[y:y+h,x:x+w])
+    #     except:
+    #         try:
+    #             skimage.io.imsave("Data/Images_RMRL_crop_parts_min/"+str(i)+".png", img[x:x+w,y:y+h])
+    #         except:
+    #             listNot.append(fname)
+    #             continue
+    #     i+=1
 
-    img = skimage.io.imread(fname)[:,:,:3]
-    for x,y,w,h in final:
-        try:
-            skimage.io.imsave("Data/Images_RMRL_crop_parts/"+str(i)+".png", img[y:y+h,x:x+w])
-        except:
-            try:
-                skimage.io.imsave("Data/Images_RMRL_crop_parts/"+str(i)+".png", img[x:x+w,y:y+h])
-            except:
-                listNot.append(fname)
-                continue
-        i+=1
+    # img = skimage.io.imread(fname)[:,:,:3]
+    # for x,y,w,h in final:
+    #     try:
+    #         skimage.io.imsave("Data/Images_RMRL_crop_parts_min/"+str(i)+".png", img[y:y+h,x:x+w])
+    #     except:
+    #         try:
+    #             skimage.io.imsave("Data/Images_RMRL_crop_parts_min/"+str(i)+".png", img[x:x+w,y:y+h])
+    #         except:
+    #             listNot.append(fname)
+    #             continue
+    #     i+=1
 
     img = skimage.io.imread(fname)[:,:,:3]
     for x,y,w,h in final_extended:
         try:
-            skimage.io.imsave("Data/Images_RMRL_crop_parts/"+str(i)+".png", img[y:y+h,x:x+w])
+            skimage.io.imsave("Data/Images_RMRL_crop_parts_min/"+fname.split("/")[-1].split(".")[0]+str(i)+".png", img[y:y+h,x:x+w])
         except:
-            try:
-                skimage.io.imsave("Data/Images_RMRL_crop_parts/"+str(i)+".png", img[x:x+w,y:y+h])
-            except:
-                listNot.append(fname)
-                continue
+            # try:
+            #     skimage.io.imsave("Data/Images_RMRL_crop_parts_min/"+str(i)+".png", img[x:x+w,y:y+h])
+            # except:
+            listNot.append(fname)
+            continue
         i+=1
     print listNot

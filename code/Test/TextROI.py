@@ -8,6 +8,7 @@ import skimage.transform
 import os
 import shutil
 import caffe
+from PIL import Image
 
 candidates = set()
 merged_candidates = set()
@@ -22,8 +23,8 @@ text_cut_final = set()
 
 def getClass(FileList):
     caffe.set_mode_gpu()
-    classifier = caffe.Classifier("../ROIs_Indus/deploy.prototxt","../ROIs_Indus/Models/bvlc_googlenet_indusnet_iter_8000.caffemodel" ,
-            image_dims=[224,224], raw_scale=255.0, channel_swap=[2,1,0])
+    classifier = caffe.Classifier("../ROIs_Indus/deploy.prototxt","../ROIs_Indus/Models/bvlc_googlenet_indusnet_iter_20000.caffemodel" ,
+            image_dims=[224,224], raw_scale=255.0, channel_swap = [2,1,0])
 
     inputs = [caffe.io.load_image(im_f) for im_f in FileList]
     print("Classifying %d inputs." % len(inputs))
@@ -398,12 +399,22 @@ for name in os.listdir("./Images"):
 		img1 = skimage.io.imread(fname)[:,:,:3]
 		if height == len(img1) and width == len(img1[0]): pass
 		else: img1 = skimage.transform.resize(img1, (height, width))
+		# imgT = Image.open(fname).convert('L')
+		# w, h = imgT.size
+		# if height == h and width == w:
+		# 	pass
+		# else:
+		# 	# img1 = skimage.transform.resize(img1, (height, width))
+		# 	imgT = imgT.resize((width,height), Image.ANTIALIAS)
 
 		ij = 1
 		fList = []
 		box_list = []
 		for x, y, w, h in final_extended:
 			skimage.io.imsave("Regions/"+name.split(".")[0]+"/"+str(ij)+"_sub.jpg", img1[y:y+h,x:x+w])
+			# imgT.crop((x,y,x+w,y+h)).save("Regions/"+name.split(".")[0]+"/"+str(ij)+"_sub_b.png")
+			# imgT = Image.open("Regions/"+name.split(".")[0]+"/"+str(ij)+"_sub.png").convert('L')
+			# imgT.save("Regions/"+name.split(".")[0]+"/"+str(ij)+"_sub_b.png")
 			fList.append("Regions/"+name.split(".")[0]+"/"+str(ij)+"_sub.jpg")
 			box_list.append((x, y, w, h))
 			ij+=1
